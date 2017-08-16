@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/usr/local/lib/python2.7/site-packages/')
+
 import numpy as np
 import cv2
 import mxnet as mx
@@ -43,7 +46,7 @@ def main():
     img = np.swapaxes(img, 1, 2)  # change to (c, h, w) order
     img = img[np.newaxis, :]  # extend to (n, c, h, w)
 
-    ctx = mx.gpu(args.gpu)
+    ctx = mx.cpu(0)
     _, arg_params, aux_params = mx.model.load_checkpoint(args.prefix, args.epoch)
     arg_params, aux_params = ch_dev(arg_params, aux_params, ctx)
     sym = resnet_50(num_class=2)
